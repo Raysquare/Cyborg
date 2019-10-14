@@ -415,9 +415,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 2517255169656727809, guid: 7f41ff7786a76d64d83a9808b6fd415a,
     type: 3}
-  speed: 200
+  speed: 15
+  jumpForce: 20
   rotationSpeed: 80
-  gravity: 8
+  gravity: 10
   cyborg: {fileID: 1525037397}
 --- !u!1 &1550952588
 GameObject:
