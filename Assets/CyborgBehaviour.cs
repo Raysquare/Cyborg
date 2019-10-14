@@ -38,7 +38,7 @@ public class CyborgBehaviour : MonoBehaviour
 
     public void Movement()
     {
-        moveDirection.y -= gravity * Time.deltaTime * 5;
+        moveDirection.y -= gravity * Time.deltaTime ;
         _controller.Move(moveDirection * Time.deltaTime);
 
 
@@ -54,7 +54,7 @@ public class CyborgBehaviour : MonoBehaviour
                 changeDirection(-1);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space))
             {
                 moveDirection.y += jumpForce;
                 _animator.SetInteger("Condition", 4);
@@ -62,12 +62,14 @@ public class CyborgBehaviour : MonoBehaviour
             }
 
 
-            if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S))
-            {
-                _animator.SetBool("Running", false);
-                moveDirection = new Vector3(0, 0, 0);
-                _animator.SetInteger("Condition", 0);
-            }
+            
+        }
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.Space))
+        {
+            _animator.SetBool("Running", false);
+            _animator.SetBool("Jumping", false);
+            moveDirection = new Vector3(0, 0, 0);
+            _animator.SetInteger("Condition", 0);
         }
 
         _controller.Move(moveDirection * Time.deltaTime * 5);
@@ -89,7 +91,7 @@ public class CyborgBehaviour : MonoBehaviour
     {
         if (_controller.isGrounded)
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 if (_animator.GetBool("Running") == true)
                 {
@@ -113,12 +115,10 @@ public class CyborgBehaviour : MonoBehaviour
     {
         _animator.SetBool("Attacking", true);
         _animator.SetInteger("Condition", 3);
+
         GameObject projectile = Instantiate<GameObject>(projectilePrefab);
-        projectile.transform.position = this.gameObject.transform.position;
+        projectile.transform.position = this.gameObject.transform.position + new Vector3 (0,50,0);
     }
 
-    public IEnumerator AttackRoutine()
-    {
-        yield return new WaitForSeconds(1);
-    }
+    
 }
