@@ -5,7 +5,7 @@ using UnityEngine;
 public class CyborgBehaviour : MonoBehaviour
 {
 
-    public GameObject projectilePrefab;
+    //public GameObject projectilePrefab;
 
     public float speed;
     public float jumpForce;
@@ -14,6 +14,9 @@ public class CyborgBehaviour : MonoBehaviour
     public float gravity;
     public GameObject cyborg;
     Vector3 moveDirection = Vector3.zero;
+
+    public Rigidbody projectilePrefab;
+    private Transform firePoint;
 
     CharacterController _controller;
     Animator _animator;
@@ -55,7 +58,7 @@ public class CyborgBehaviour : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0))
             {
-                Attack();
+                Attack2();
             }
 
 
@@ -93,16 +96,24 @@ public class CyborgBehaviour : MonoBehaviour
         _animator.SetInteger("Condition", 1);
     }
 
-    
 
-    public void Attack()
+
+    //public void Attack()
+    //{
+    //    _animator.SetBool("Attacking", true);
+    //    _animator.SetInteger("Condition", 3);
+
+    //    GameObject projectile = Instantiate<GameObject>(projectilePrefab);
+    //    projectile.transform.position = this.gameObject.transform.position + new Vector3(0, 50, 0);
+    //}
+
+    public void Attack2()
     {
         _animator.SetBool("Attacking", true);
         _animator.SetInteger("Condition", 3);
+        this.firePoint = this.gameObject.transform;
+        Rigidbody projectileInstance = Instantiate(projectilePrefab, firePoint.position + new Vector3 (0,50,0), firePoint.rotation);
 
-        GameObject projectile = Instantiate<GameObject>(projectilePrefab);
-        projectile.transform.position = this.gameObject.transform.position + new Vector3 (0,50,0);
+        projectileInstance.velocity = transform.TransformDirection(Vector3.forward * 10);
     }
-
-    
 }
