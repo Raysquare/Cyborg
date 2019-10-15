@@ -114,6 +114,6 @@ public class CyborgBehaviour : MonoBehaviour
         this.firePoint = this.gameObject.transform;
         Rigidbody projectileInstance = Instantiate(projectilePrefab, firePoint.position + new Vector3 (0,50,0), firePoint.rotation);
 
-        projectileInstance.velocity = transform.TransformDirection(Vector3.forward * 10);
+        
     }
 }
