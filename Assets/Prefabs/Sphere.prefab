@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  velocity: {x: 0, y: 0, z: 0}
   projectileSpeedFactor: 200
   mainCharacter: {fileID: 100000, guid: 3f27a5aa7f5b86b41870fa4d6228e254, type: 3}
 --- !u!54 &6244048387757156983

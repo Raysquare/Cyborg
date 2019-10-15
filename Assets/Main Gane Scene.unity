@@ -502,13 +502,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6391743e28f4d394ea7beb1a4d50e0ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 5428985730530987774, guid: 7f41ff7786a76d64d83a9808b6fd415a,
-    type: 3}
   speed: 15
   jumpForce: 20
   rotationSpeed: 80
-  gravity: 10
+  gravity: 30
   cyborg: {fileID: 1525037397}
+  projectilePrefab: {fileID: 6244048387757156983, guid: 7f41ff7786a76d64d83a9808b6fd415a,
+    type: 3}
 --- !u!1 &1550952588
 GameObject:
   m_ObjectHideFlags: 0
