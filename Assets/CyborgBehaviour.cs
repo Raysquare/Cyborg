@@ -8,6 +8,7 @@ public class CyborgBehaviour : MonoBehaviour
     public GameObject projectilePrefab;
 
     public float speed;
+    public float jumpForce;
     public float rotationSpeed;
     private float rotation;
     public float gravity;
@@ -22,7 +23,7 @@ public class CyborgBehaviour : MonoBehaviour
     {
         _controller = cyborg.GetComponent<CharacterController>();
         _animator = cyborg.GetComponent<Animator>();
-        
+
     }
 
     // Update is called once per frame
@@ -32,37 +33,49 @@ public class CyborgBehaviour : MonoBehaviour
         Movement();
         GetInput();
 
-        
+
     }
 
     public void Movement()
     {
+        moveDirection.y -= gravity * Time.deltaTime ;
+        _controller.Move(moveDirection * Time.deltaTime);
 
-        //if (_controller.isGrounded)
-        //{
-        if (Input.GetKey(KeyCode.W))
+
+        if (_controller.isGrounded)
         {
-            changeDirection(1);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            changeDirection(-1);
-        }
+
+            if (Input.GetKey(KeyCode.W))
+            {
+                changeDirection(1);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                changeDirection(-1);
+            }
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                moveDirection.y += jumpForce;
+                _animator.SetInteger("Condition", 4);
+                _animator.SetBool("Jumping", true);
+            }
 
 
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S))
+            
+        }
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.Space))
         {
             _animator.SetBool("Running", false);
+            _animator.SetBool("Jumping", false);
             moveDirection = new Vector3(0, 0, 0);
             _animator.SetInteger("Condition", 0);
         }
-        //}
 
+        _controller.Move(moveDirection * Time.deltaTime * 5);
         this.rotation += Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
         transform.eulerAngles = new Vector3(0, this.rotation, 0);
 
-        moveDirection.y -= gravity * Time.deltaTime;
-        _controller.Move(moveDirection * Time.deltaTime);
     }
 
     public void changeDirection(int x)
@@ -78,8 +91,8 @@ public class CyborgBehaviour : MonoBehaviour
     {
         if (_controller.isGrounded)
         {
-            if (Input.GetMouseButton(0))
-            {   
+            if (Input.GetMouseButtonDown(0))
+            {
                 if (_animator.GetBool("Running") == true)
                 {
                     _animator.SetBool("Running", false);
@@ -89,21 +102,23 @@ public class CyborgBehaviour : MonoBehaviour
                 {
                     Attack();
                 }
-                
+
             }
+
+
         }
+        
+
     }
 
     public void Attack()
     {
         _animator.SetBool("Attacking", true);
         _animator.SetInteger("Condition", 3);
+
         GameObject projectile = Instantiate<GameObject>(projectilePrefab);
-        projectile.transform.position = this.gameObject.transform.position;
+        projectile.transform.position = this.gameObject.transform.position + new Vector3 (0,50,0);
     }
 
-    public IEnumerator AttackRoutine()
-    {
-        yield return new WaitForSeconds(1);
-    }
+    
 }
