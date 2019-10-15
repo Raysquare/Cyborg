@@ -30,15 +30,7 @@ public class CyborgBehaviour : MonoBehaviour
     void Update()
     {
 
-        Movement();
-        GetInput();
-
-
-    }
-
-    public void Movement()
-    {
-        moveDirection.y -= gravity * Time.deltaTime ;
+        moveDirection.y -= gravity * Time.deltaTime;
         _controller.Move(moveDirection * Time.deltaTime);
 
 
@@ -54,62 +46,54 @@ public class CyborgBehaviour : MonoBehaviour
                 changeDirection(-1);
             }
 
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 moveDirection.y += jumpForce;
                 _animator.SetInteger("Condition", 4);
                 _animator.SetBool("Jumping", true);
+               
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                Attack();
             }
 
 
-            
+
         }
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.Space))
+
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            _animator.SetBool("Running", false);
+            _animator.SetBool("Jumping", false);
+            _animator.SetInteger("Condition", 0);
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S))
+        {
+            _animator.SetBool("Walking", false);
             _animator.SetBool("Jumping", false);
             moveDirection = new Vector3(0, 0, 0);
             _animator.SetInteger("Condition", 0);
         }
 
-        _controller.Move(moveDirection * Time.deltaTime * 5);
+        _controller.Move(moveDirection * Time.deltaTime);
         this.rotation += Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
         transform.eulerAngles = new Vector3(0, this.rotation, 0);
 
     }
 
+    
+
     public void changeDirection(int x)
     {
-        _animator.SetBool("Running", true);
         moveDirection = new Vector3(0, 0, x);
         moveDirection = moveDirection * speed;
         moveDirection = transform.TransformDirection(moveDirection);
         _animator.SetInteger("Condition", 1);
     }
 
-    public void GetInput()
-    {
-        if (_controller.isGrounded)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (_animator.GetBool("Running") == true)
-                {
-                    _animator.SetBool("Running", false);
-                    _animator.SetInteger("Condition", 0);
-                }
-                else if (_animator.GetBool("Running") == false)
-                {
-                    Attack();
-                }
-
-            }
-
-
-        }
-        
-
-    }
+    
 
     public void Attack()
     {
