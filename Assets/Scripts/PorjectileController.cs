@@ -7,6 +7,7 @@ public class PorjectileController : MonoBehaviour
 {
     public int damage;
     private Vector3 velocity;
+    public float projectileSpeedFactor;
     public GameObject mainCharacter;
 
     // Start is called before the first frame update
@@ -20,7 +21,7 @@ public class PorjectileController : MonoBehaviour
     {
         float rotationY = mainCharacter.transform.rotation.y;
 
-        this.velocity = new Vector3((float)Math.Asin(rotationY) * 40, 0, (float)(Math.Acos(rotationY) * 20));
+        this.velocity = new Vector3((float)Math.Asin(rotationY) * projectileSpeedFactor, 0, (float)(Math.Acos(rotationY) * projectileSpeedFactor));
         this.transform.Translate(this.velocity * Time.deltaTime);
     }
 }
